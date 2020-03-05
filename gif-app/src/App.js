@@ -16,11 +16,11 @@ export default class App extends Component {
         axios.get('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC')
             .then(res => {
                 this.setState({
-                    gifs: res.data
+                    gifs: res.data.data
                 });
             })
             .catch(err => {
-            console.log('Error fetching and parsing data', err)
+            console.log('Error fetching and parsing data', err);
         });
     }
     render() {
@@ -34,7 +34,7 @@ export default class App extends Component {
                     </div>
                 </div>
                 <div className="main-content">
-                    <GifList />
+                    <GifList  data={this.state.gifs}/>
                 </div>
             </div>
         );
