@@ -9,18 +9,20 @@ export default class App extends Component {
     constructor() {
         super();
         this.state = {
-            gifs: []
+            gifs: [],
+            loading: true
         };
     }
     componentDidMount() {
-
+        this.performSearch() //run a default gif on page load
     }
 
-    performSearch = (query)=> {
+    performSearch = (query = 'cats')=> {
     axios.get(`http://api.giphy.com/v1/gifs/search?q=${query}&limit=24&api_key=dc6zaTOxFJmzC`)
         .then(res => {
             this.setState({
-                gifs: res.data.data
+                gifs: res.data.data,
+                loading: false
             });
         })
         .catch(err => {
@@ -39,7 +41,11 @@ export default class App extends Component {
                     </div>
                 </div>
                 <div className="main-content">
-                    <GifList  data={this.state.gifs}/>
+                {
+                    (this.state.loading)
+                    ?<p>Loading ...</p>
+                    : <GifList data={this.state.gifs} />
+                }
                 </div>
             </div>
         );
